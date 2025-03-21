@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['login.py'],
+    ['D:\\Jefferson\\Proyecto Contabilidad\\login.py'],
     pathex=[],
     binaries=[],
-    datas=[('usuarios.db', '.')],
+    datas=[('login.py', '.'), ('menu.py', '.'), ('partidas_contables.py', '.'), ('BalIco.png', '.'), ('BalsaIco.png', '.'), ('Config.png', '.'), ('EstaIco.png', '.'), ('LibMaIco.png', '.'), ('logo.png', '.'), ('ParCoIco.png', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['icon.ico'],
+    icon=['D:\\Jefferson\\Proyecto Contabilidad\\icon.ico'],
 )
