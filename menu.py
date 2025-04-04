@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (QApplication, QWidget, QGridLayout, QPushButton,
 from PyQt6.QtGui import QIcon, QFont, QPixmap, QColor
 from PyQt6.QtCore import Qt
 from partidas_contables import PartidasContables
+from balance import BalanceGeneral
 
 def resource_path(relative_path):
     """Obtiene la ruta absoluta del recurso, compatible con PyInstaller."""
@@ -124,7 +125,7 @@ class MenuApp(QWidget):
         
         buttons_info = [
             ("Partidas Contables", "ParCoIco.png", self.abrir_partidas),
-            ("Balance General", "BalIco.png", self.mostrar_advertencia),
+            ("Balance General", "BalIco.png", self.abrir_balance_general),
             ("Estado de Resultados", "EstaIco.png", self.mostrar_advertencia),
             ("Libro Mayor General", "LibMaIco.png", self.mostrar_advertencia),
             ("Balance de Saldos", "BalsaIco.png", self.mostrar_advertencia),
@@ -159,6 +160,11 @@ class MenuApp(QWidget):
     def abrir_partidas(self):
         self.partidas_window = PartidasContables()
         self.partidas_window.show()
+        self.close()  # Cierra el menú actual
+
+    def abrir_balance_general(self):
+        self.balance_window = BalanceGeneral()
+        self.balance_window.show()
         self.close()  # Cierra el menú actual
 
     def mostrar_advertencia(self):
