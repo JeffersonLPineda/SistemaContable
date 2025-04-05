@@ -65,28 +65,9 @@ class PartidasContables(QWidget):
         self.setup_ui()
     
     def init_db(self):
-        # Conexión a la base de datos y creación del esquema si no existe.
-        self.conn = sqlite3.connect("contabilidad.db")
+        db_path = resource_path("contabilidad.db")
+        self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
-        self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS partidas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                fecha DATE NOT NULL,
-                correlativo INTEGER NOT NULL UNIQUE,
-                descripcion TEXT NOT NULL
-            )
-        """)
-        self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS cuentas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                partida_id INTEGER NOT NULL,
-                cuenta TEXT NOT NULL,
-                monto REAL NOT NULL,
-                tipo TEXT NOT NULL CHECK(tipo IN ('Debe', 'Haber')),
-                FOREIGN KEY (partida_id) REFERENCES partidas(id) ON DELETE CASCADE
-            )
-        """)
-        self.conn.commit()
     
     def agregar_cuenta(self):
         cuenta = self.cuenta.text().strip()

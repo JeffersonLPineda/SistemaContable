@@ -1,4 +1,3 @@
-# balance_general.py
 import sys
 import sqlite3
 import os
@@ -46,6 +45,7 @@ class BalanceGeneral(QWidget):
         self.setup_ui()
     
     def init_db(self):
+        """Solo conexión a la base de datos existente"""
         db_path = resource_path("contabilidad.db")
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
@@ -56,12 +56,11 @@ class BalanceGeneral(QWidget):
         año = fecha_seleccionada.year()
         
         try:
-            # Fechas clave
             fecha_inicio = QDate(año, mes, 1)
             fecha_fin = fecha_inicio.addMonths(1).addDays(-1)
             fecha_inicio_plus_1 = fecha_inicio.addDays(1)
             
-            # 1. Obtener saldo inicial (solo primer día del mes)
+            # Consulta saldo inicial
             self.cursor.execute("""
                 SELECT c.cuenta, 
                        SUM(CASE WHEN c.tipo = 'Debe' THEN c.monto ELSE -c.monto END)
@@ -73,11 +72,11 @@ class BalanceGeneral(QWidget):
             
             saldo_inicial = {row[0]: row[1] for row in self.cursor.fetchall()}
             
-            # 2. Obtener movimientos del mes excluyendo el primer día
+            # Consulta movimientos
             self.cursor.execute("""
                 SELECT c.cuenta, 
-                       SUM(CASE WHEN c.tipo = 'Debe' THEN c.monto ELSE 0 END) as debe,
-                       SUM(CASE WHEN c.tipo = 'Haber' THEN c.monto ELSE 0 END) as haber
+                       SUM(CASE WHEN c.tipo = 'Debe' THEN c.monto ELSE 0 END),
+                       SUM(CASE WHEN c.tipo = 'Haber' THEN c.monto ELSE 0 END)
                 FROM cuentas c
                 JOIN partidas p ON c.partida_id = p.id
                 WHERE p.fecha BETWEEN ? AND ?
@@ -91,7 +90,7 @@ class BalanceGeneral(QWidget):
             
             self.tabla.setRowCount(0)
             
-            # Combinar todas las cuentas únicas
+            # Combinar resultados
             todas_cuentas = set(saldo_inicial.keys()).union(set(movimientos.keys()))
             
             if not todas_cuentas:
@@ -102,16 +101,10 @@ class BalanceGeneral(QWidget):
                 row = self.tabla.rowCount()
                 self.tabla.insertRow(row)
                 
-                # Saldo inicial (solo primer día)
                 inicial = saldo_inicial.get(cuenta, 0.0)
-                
-                # Movimientos (excluyendo primer día)
                 debe, haber = movimientos.get(cuenta, (0.0, 0.0))
-                
-                # Calcular saldo actual
                 saldo_actual = inicial + (debe - haber)
                 
-                # Llenar la tabla
                 self.tabla.setItem(row, 0, QTableWidgetItem(cuenta))
                 self.tabla.setItem(row, 1, QTableWidgetItem(f"Q{inicial:.2f}"))
                 self.tabla.setItem(row, 2, QTableWidgetItem(f"Q{debe:.2f}"))
@@ -170,6 +163,7 @@ class BalanceGeneral(QWidget):
         self.setLayout(main_layout)
     
     def volver_menu(self):
+        # Cierra la ventana actual e importa la ventana del menú principal
         from menu import MenuApp
         self.menu = MenuApp()
         self.menu.show()
