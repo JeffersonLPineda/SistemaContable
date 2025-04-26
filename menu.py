@@ -7,6 +7,7 @@ from PyQt6.QtGui import QIcon, QFont, QPixmap, QColor
 from PyQt6.QtCore import Qt
 from partidas_contables import PartidasContables
 from balance import BalanceGeneral
+from libromayor import LibroMayor
 
 def resource_path(relative_path):
     """Obtiene la ruta absoluta del recurso, compatible con PyInstaller."""
@@ -127,7 +128,7 @@ class MenuApp(QWidget):
             ("Partidas Contables", "ParCoIco.png", self.abrir_partidas),
             ("Balance General", "BalIco.png", self.abrir_balance_general),
             ("Estado de Resultados", "EstaIco.png", self.mostrar_advertencia),
-            ("Libro Mayor General", "LibMaIco.png", self.mostrar_advertencia),
+            ("Libro Mayor General", "LibMaIco.png", self.abrir_libro_mayor),
             ("Balance de Saldos", "BalsaIco.png", self.mostrar_advertencia),
             ("Configuración del Sistema", "Config.png", self.mostrar_advertencia)
         ]
@@ -166,6 +167,11 @@ class MenuApp(QWidget):
         self.balance_window = BalanceGeneral()
         self.balance_window.show()
         self.close()  # Cierra el menú actual
+
+    def abrir_libro_mayor(self):
+        self.balance_window = LibroMayor()
+        self.balance_window.show()
+        self.close()  # Cierra el menú actual   
 
     def mostrar_advertencia(self):
         msg = QMessageBox()
