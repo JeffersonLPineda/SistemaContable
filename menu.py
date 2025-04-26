@@ -8,6 +8,7 @@ from PyQt6.QtCore import Qt
 from partidas_contables import PartidasContables
 from balance import BalanceGeneral
 from libromayor import LibroMayor
+from exportacion import Exportacion
 
 def resource_path(relative_path):
     """Obtiene la ruta absoluta del recurso, compatible con PyInstaller."""
@@ -130,7 +131,7 @@ class MenuApp(QWidget):
             ("Estado de Resultados", "EstaIco.png", self.mostrar_advertencia),
             ("Libro Mayor General", "LibMaIco.png", self.abrir_libro_mayor),
             ("Balance de Saldos", "BalsaIco.png", self.mostrar_advertencia),
-            ("Configuración del Sistema", "Config.png", self.mostrar_advertencia)
+            ("Exportación", "Config.png",self.abrir_exportacion)
         ]
         
         positions = [(i // 3, i % 3) for i in range(6)]
@@ -172,6 +173,11 @@ class MenuApp(QWidget):
         self.balance_window = LibroMayor()
         self.balance_window.show()
         self.close()  # Cierra el menú actual   
+
+    def abrir_exportacion(self):
+        self.balance_window = Exportacion()
+        self.balance_window.show()
+        self.close()  # Cierra el menú actual 
 
     def mostrar_advertencia(self):
         msg = QMessageBox()
