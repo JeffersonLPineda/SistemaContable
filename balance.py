@@ -125,7 +125,7 @@ class BalanceGeneral(QWidget):
         header = QHBoxLayout()
         self.btn_volver = ModernButton("Volver al Menú")
         self.btn_volver.clicked.connect(self.volver_menu)
-        title = QLabel("Balance General")
+        title = QLabel("Balance de Saldos")
         title.setFont(QFont("Segoe UI", 20, QFont.Weight.Bold))
         title.setStyleSheet("color: #004AAD;")
         header.addWidget(self.btn_volver)

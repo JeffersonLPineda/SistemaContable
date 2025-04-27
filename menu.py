@@ -127,10 +127,10 @@ class MenuApp(QWidget):
         
         buttons_info = [
             ("Partidas Contables", "ParCoIco.png", self.abrir_partidas),
-            ("Balance General", "BalIco.png", self.abrir_balance_general),
+            ("Balance General", "BalIco.png", self.mostrar_advertencia),
             ("Estado de Resultados", "EstaIco.png", self.mostrar_advertencia),
             ("Libro Mayor General", "LibMaIco.png", self.abrir_libro_mayor),
-            ("Balance de Saldos", "BalsaIco.png", self.mostrar_advertencia),
+            ("Balance de Saldos", "BalsaIco.png", self.abrir_balance_general),
             ("Exportación", "Config.png",self.abrir_exportacion)
         ]
         
