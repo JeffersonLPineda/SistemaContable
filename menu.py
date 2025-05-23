@@ -8,7 +8,9 @@ from PyQt6.QtCore import Qt
 from partidas_contables import PartidasContables
 from balance import BalanceGeneral
 from libromayor import LibroMayor
+from BalanceGeneral import CalculoActivoUI
 from exportacion import Exportacion
+from EstadodeResultados import EstadosResultadosUI
 
 def resource_path(relative_path):
     """Obtiene la ruta absoluta del recurso, compatible con PyInstaller."""
@@ -127,8 +129,8 @@ class MenuApp(QWidget):
         
         buttons_info = [
             ("Partidas Contables", "ParCoIco.png", self.abrir_partidas),
-            ("Balance General", "BalIco.png", self.mostrar_advertencia),
-            ("Estado de Resultados", "EstaIco.png", self.mostrar_advertencia),
+            ("Balance General", "BalIco.png", self.abrir_balancegeneral),
+            ("Estado de Resultados", "EstaIco.png", self.abrir_estadoderesul),
             ("Libro Mayor General", "LibMaIco.png", self.abrir_libro_mayor),
             ("Balance de Saldos", "BalsaIco.png", self.abrir_balance_general),
             ("Exportación", "Config.png",self.abrir_exportacion)
@@ -151,7 +153,7 @@ class MenuApp(QWidget):
         main_layout.addWidget(button_frame)
         
         # Pie de página
-        footer = QLabel("© 2025 Sistema Contable - Versión 0.1")
+        footer = QLabel("© 2025 Sistema Contable - Versión 1.0")
         footer.setFont(QFont("Segoe UI", 10))
         footer.setStyleSheet("color: #6C757D;")
         footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -173,6 +175,16 @@ class MenuApp(QWidget):
         self.balance_window = LibroMayor()
         self.balance_window.show()
         self.close()  # Cierra el menú actual   
+
+    def abrir_balancegeneral(self):
+        self.balance_window = CalculoActivoUI()
+        self.balance_window.show()
+        self.close()  # Cierra el menú actual   
+
+    def abrir_estadoderesul(self):
+        self.balance_window = EstadosResultadosUI()
+        self.balance_window.show()
+        self.close()  # Cierra el menú actual 
 
     def abrir_exportacion(self):
         self.balance_window = Exportacion()
